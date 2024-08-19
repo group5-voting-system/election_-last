@@ -1,39 +1,19 @@
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import img1 from "../assets/o.png";
+import { Link } from "react-router-dom";
+import img1 from "../assets/herovot.png";
 import img2 from "../assets/jorimg.jpg";
 import img3 from "../assets/voting.jpg";
 import CountdownTimer from "../comonamt/timer";
 import ElectoralDistricts from "../comonamt/ElectoralDistricts";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import VideoCall from "../comonamt/VideoCall";
+
 import ChatBox from "../chatbooks/newchat";
-import RoomPage from "../comonamt/room";
 
 const Home = () => {
   const [advertisements, setAdvertisements] = useState([]);
   const [fullName, setFullName] = useState("");
-  const [roomId, setRoomId] = useState("");
-  const navigate = useNavigate();
-  const handleRoomIdGenerate = () => {
-    const randomId = Math.random().toString(36).substring(2, 9);
-    const timestamp = Date.now().toString().substring(-4);
-    setRoomId(randomId + timestamp);
-  };
-  const hanleOneAndOneCall = () => {
-    if (!roomId) {
-      alert("please generate room Id First");
-      return;
-    }
-    navigate(`room/${roomId}?type=one-on-one`);
-  };
-  const hanleGroupCall = () => {
-    if (!roomId) {
-      alert("please generate room Id First");
-      return;
-    }
-    Navigate(`room/${roomId}?type=group-call`);
-  };
-
+  // هاي مشان تجيبلي كل الي عاملين اعلانات
   useEffect(() => {
     const fetchAdvertisements = async () => {
       try {
@@ -49,6 +29,7 @@ const Home = () => {
     fetchAdvertisements();
   }, []);
 
+  //رسالة الترحيبية هاي ختصه فيها
   useEffect(() => {
     const checkLocalVoteStatus = async () => {
       try {
@@ -81,6 +62,7 @@ const Home = () => {
 
       {/* Jordan map and welcome message */}
       <div className="relative h-screen flex items-center justify-center mb-8">
+        {/* Jordan map as background */}
         <div className="absolute inset-0">
           <img
             src={img2}
@@ -89,42 +71,44 @@ const Home = () => {
           />
         </div>
 
-        <div className="absolute top-120 right-0 p-6 md:p-8 text-black bg-opacity-75 bg-white w-full md:w-/4 lg:w-1/2 text-right rounded-lg shadow-lg">
-          {" "}
-          <h2 className="text-3xl md:text-4xl mb-4 text-center font-semibold">
+        {/* Overlay for text */}
+        <div className="absolute bottom-0 right-0 p-6 text-black bg-opacity-75 bg-white w-1/2 text-right rounded-lg shadow-lg">
+          <h2 className="text-3xl mb-4 text-center font-semibold">
             {fullName} مرحبا
           </h2>
-          <p className="text-lg md:text-xl text-center leading-relaxed">
+          <p className="text-lg text-center">
             شكرا لتسجيل دخولك إلى موقعنا. نحن هنا لمساعدتك في عملية الانتخابات.
             إذا كنت ترغب في استكشاف المزيد عن الانتخابات القادمة، المرشحين،
             والمواضيع الهامة
           </p>
         </div>
       </div>
-      <h1 className="text-4xl font-bold text-center mb-8 mt-12 text-gray-800">
-        ما هي الانتخابات
-      </h1>
-      <div className="flex flex-col md:flex-row-reverse items-center justify-between mb-12">
-        <div className="md:w-1/2 text-right mb-6 md:mb-0">
-          <p className="text-lg leading-relaxed text-gray-700">
-            الانتخابات هي الركيزة الأساسية للديمقراطية التمثيلية. من خلالها،
-            يختار المواطنون ممثليهم في المناصب السياسية المختلفة. وهذه العملية
-            تُعد من أهم آليات المشاركة السياسية والتعبير عن إرادة الشعب.
+
+      <h1 className="text-3xl font-bold text-center mb-6 mt-10">من نحن</h1>
+      <div className="flex flex-col md:flex-row-reverse items-center justify-between mb-10">
+        <div className="md:w-1/2 text-right mb-4 md:mb-0">
+          <p className="text-lg leading-relaxed">
+            الانتخابات هي عملية الموظفين لاختيار الأشخاص الذين سيمثلونهم في
+            المناصب السياسية. وهي آلية من آليات الديمقراطية التمثيلية. حيث تعمل
+            على تجسيد مفهوم الانتخابات الحرة تعتبر من أهم ركائز هذه العملية
+            الديمقراطية.
           </p>
         </div>
         <div className="md:w-1/2">
           <img
             src={img3}
-            alt="الناس يشاركون في عملية التصويت"
+            alt="Ballot being placed in voting box"
             className="w-full h-auto rounded-lg shadow-lg"
           />
         </div>
       </div>
 
+      {/* Electoral districts */}
       <div className="mb-8 mt-10">
         <ElectoralDistricts />
       </div>
 
+      {/* Candidate announcements */}
       <h2 className="text-3xl mb-4 text-center font-semibold">
         الإعلانات الجديدة
       </h2>
@@ -161,25 +145,39 @@ const Home = () => {
           </div>
         ))}
       </div>
-      <div className="mb-8 text-right" dir="rtl">
-        <h2 className="text-3xl mb-10 text-center font-semibold mt-10">
+      <div className="mb-8 text-right " dir="rtl">
+        <h2 className="text-3xl mb-4 text-center font-semibold  mt-10">
           تثقيف الناخبين
         </h2>
-        <div className="bg-blue-100 p-4 rounded-lg">
+        <div className="bg-yellow-100 p-4 rounded-lg">
           <p className="mb-4">تعرف على حقوقك وواجباتك كناخب:</p>
           <ul className="list-disc list-inside">
             <li className="mb-2">كيفية التحقق من تسجيلك كناخب</li>
             <li className="mb-2">الوثائق المطلوبة يوم الانتخاب</li>
             <li className="mb-2">خطوات عملية التصويت</li>
           </ul>
-          <div className="mt-6">
-            <h3 className="text-xl font-semibold mb-2">حقوقك وواجباتك</h3>
-            <ul className="list-disc list-inside pl-5">
-              <li className="mb-2">الحق في التصويت دون تمييز</li>
-              <li className="mb-2">واجب الالتزام بالقوانين الانتخابية</li>
-              <li className="mb-2">الحق في الحصول على المعلومات الانتخابية</li>
-            </ul>
+          <Link
+            to="/"
+            className="mt-4 inline-block bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors"
+          >
+            اقرأ المزيد
+          </Link>
+        </div>
+      </div>
+
+      <div className="mb-8" dir="rtl">
+        <h2 className="text-3xl mb-4 text-center font-semibold">
+          تحديثات مباشرة
+        </h2>
+        <div className="bg-green-100 p-4 rounded-lg">
+          <p className="text-lg font-semibold mb-2">نسبة المشاركة الحالية:</p>
+          <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+            <div
+              className="bg-green-600 h-2.5 rounded-full"
+              style={{ width: "45%" }}
+            ></div>
           </div>
+          <p className="mt-2">45% من الناخبين المسجلين قد أدلوا بأصواتهم</p>
         </div>
       </div>
 
@@ -210,61 +208,8 @@ const Home = () => {
         </div>
       </div>
 
-      {/* VideoCall Component */}
-      <div className="flex flex-col items-center justify-center h-screen bg-blue-50">
-        <h1 className="text-4xl font-bold mb-4">
-          أهلاً بك في تطبيق المكالمات المرئية
-        </h1>
-        <p className="text-lg mb-6">
-          ابدأ مكالمة فيديو باستخدام معرف غرفة تم إنشاؤه عشوائياً
-        </p>
-
-        <div className="flex items-center mb-4">
-          <input
-            type="text"
-            value={roomId}
-            readOnly
-            placeholder="معرف الغرفة المُنشأ"
-            className="border border-gray-300 p-2 rounded-l-lg w-60"
-          />
-          <button
-            onClick={handleRoomIdGenerate}
-            className="bg-blue-500 text-white p-2 rounded-r-lg hover:bg-blue-700 transition-colors"
-          >
-            إنشاء
-          </button>
-        </div>
-
-        <div className="flex space-x-4">
-          <button
-            className={`px-4 py-2 rounded-lg transition-transform duration-300 ${
-              roomId
-                ? "bg-blue-500 text-white hover:bg-blue-600 active:scale-95 shadow-lg"
-                : "bg-gray-300 text-gray-500 cursor-not-allowed"
-            }`}
-            disabled={!roomId}
-            onClick={hanleOneAndOneCall}
-          >
-            مكالمة فردية
-          </button>
-          <button
-            disabled={!roomId}
-            onClick={hanleGroupCall}
-            className={`px-4 py-2 rounded-lg transition-transform duration-300 ${
-              roomId
-                ? "bg-blue-500 text-white hover:bg-blue-600 active:scale-95 shadow-lg"
-                : "bg-gray-300 text-gray-500 cursor-not-allowed"
-            }`}
-          >
-            مكالمة جماعية
-          </button>
-        </div>
-      </div>
-
-      {/* ChatBox Component */}
-      <div className="mb-8" dir="rtl">
-        <ChatBox />
-      </div>
+      <ChatBox />
+      <VideoCall />
     </div>
   );
 };

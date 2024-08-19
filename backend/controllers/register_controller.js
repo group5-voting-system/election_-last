@@ -1,14 +1,16 @@
+
 const nodemailer = require("nodemailer");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const crypto = require("crypto");
+const crypto = require('crypto');
 
-const knex = require("knex");
-const knexfile = require("../knexfile");
+const knex = require('knex');
+const knexfile = require('../knexfile');
 const db = knex(knexfile.development);
 
+
 function generateRandomPassword(length = 4) {
-  return crypto.randomBytes(length).toString("base64").slice(0, length);
+  return crypto.randomBytes(length).toString('base64').slice(0, length);
 }
 
 async function sendEmail(to, subject, html) {
@@ -16,15 +18,15 @@ async function sendEmail(to, subject, html) {
     service: "outlook",
     auth: {
       user: "muslimcode@outlook.com",
-      pass: "AsDfGhJkL123",
-    },
+      pass: "AsDfGhJkL123"
+    }
   });
 
   const mailOptions = {
     from: "muslimcode@outlook.com",
     to,
     subject,
-    html,
+    html
   };
 
   try {
@@ -40,12 +42,14 @@ exports.sign_up = async (req, res) => {
   // const db = req.app.locals.db;
   const { nid, email } = req.body;
 
+
   console.log("inside sign up");
   try {
-    const user = await db("USERS")
-      .select("*")
-      .where("NATIONAL_ID", nid)
+    const user = await db('USERS')
+      .select('*')
+      .where('NATIONAL_ID', nid)
       .first();
+
 
     if (user && user.PASSWORD) {
       res.json("password");
@@ -59,14 +63,16 @@ exports.sign_up = async (req, res) => {
 
       await sendEmail(email, "First login", html);
 
-      await db("USERS").where("NATIONAL_ID", nid).update({
-        OTB: temporary_pass,
-      });
+      await db('USERS')
+        .where('NATIONAL_ID', nid)
+        .update({
+          OTB: temporary_pass,
+        });
 
       res.json("otp");
     }
   } catch (error) {
-    console.error("Error in sign_up:", error.message);
+    console.error('Error in sign_up:', error.message);
     res.status(500).json("Error occurred");
   }
 };
@@ -77,21 +83,23 @@ exports.log_in = async (req, res) => {
 
   console.log("inside log in");
   try {
-    const user = await db("USERS")
-      .select("*")
-      .where("NATIONAL_ID", nid)
+    const user = await db('USERS')
+      .select('*')
+      .where('NATIONAL_ID', nid)
       .first();
 
-    if (user && (await bcrypt.compare(pass, user.PASSWORD))) {
-      const token = jwt.sign(user, "tegthtyh3c25d5a5ddfdfd", {
-        expiresIn: "1h",
-      });
+    if (user && await bcrypt.compare(pass, user.PASSWORD)) {
+      const token = jwt.sign(user, "tegthtyh3c25d5a5ddfdfd", { expiresIn: '1h' });
 
-      await db("USERS").where("NATIONAL_ID", nid).update({
-        Token: token,
-      });
+      await db('USERS')
+        .where('NATIONAL_ID', nid)
+        .update({
+          Token: token,
+        });
 
       console.log("Log in successfully :) !!");
+
+
 
       res.json({ token });
       // res.status(200).json({ message: "Login successful", token: token });
@@ -101,10 +109,14 @@ exports.log_in = async (req, res) => {
     }
     // console.log("end of try");
   } catch (error) {
-    console.error("Error in log_in:", error.message);
+    console.error('Error in log_in:', error.message);
     res.status(500).json("Error occurred");
   }
 };
+
+
+
+
 
 exports.log_in_new = async (req, res) => {
   // const db = req.app.locals.db;
@@ -112,9 +124,9 @@ exports.log_in_new = async (req, res) => {
   console.log(nid, otp);
 
   try {
-    const user = await db("USERS")
-      .select("*")
-      .where("NATIONAL_ID", nid)
+    const user = await db('USERS')
+      .select('*')
+      .where('NATIONAL_ID', nid)
       .first();
 
     // console.log(user);
@@ -126,7 +138,7 @@ exports.log_in_new = async (req, res) => {
       res.json("not-matched");
     }
   } catch (error) {
-    console.error("Error in log_in_new:", error.message);
+    console.error('Error in log_in_new:', error.message);
     res.status(500).json("Error occurred");
   }
 };
@@ -142,15 +154,18 @@ exports.set_new_pass = async (req, res) => {
     const hashed_password = await bcrypt.hash(pass, salt);
 
     console.log("down");
-    await db("USERS").where("NATIONAL_ID", nid).update({
-      PASSWORD: hashed_password,
-      OTB: null,
-    });
+    await db('USERS')
+      .where('NATIONAL_ID', nid)
+      .update({
+        PASSWORD: hashed_password,
+        OTB: null
+      });
     console.log("up");
+
 
     res.json("Password updated successfully");
   } catch (error) {
-    console.error("Error in set_new_pass:", error.message);
+    console.error('Error in set_new_pass:', error.message);
     res.status(500).json("Error occurred");
   }
 };
@@ -160,9 +175,9 @@ exports.get_data = async (req, res) => {
   const { nid } = req.body;
 
   try {
-    const user = await db("USERS")
-      .select("*")
-      .where("NATIONAL_ID", nid)
+    const user = await db('USERS')
+      .select('*')
+      .where('NATIONAL_ID', nid)
       .first();
 
     if (user) {
@@ -174,7 +189,7 @@ exports.get_data = async (req, res) => {
       res.status(404).json("User not found");
     }
   } catch (error) {
-    console.error("Error in get_data:", error.message);
+    console.error('Error in get_data:', error.message);
     res.status(500).json("Error occurred");
   }
 };
