@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const Dashboard = () => {
+const Results = () => {
   const [stats, setStats] = useState({
     localVoteCount: 0,
     listsInfo: [],
@@ -166,7 +166,7 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Results;
 
 // import React, { useState, useEffect } from 'react';
 // import axios from 'axios';

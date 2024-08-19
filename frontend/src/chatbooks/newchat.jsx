@@ -27,7 +27,7 @@ const ChatBox = () => {
 
   const fetchMessages = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api//getall");
+      const response = await axios.get("http://localhost:5000/api/getall");
       const sortedMessages = response.data.sort((a, b) => a.Id - b.Id);
       setMessages(sortedMessages);
     } catch (error) {

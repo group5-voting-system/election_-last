@@ -11,6 +11,6 @@ app.use(express.json());
 const ChatRoutes = require("./routes/contactFormRoutes");
 app.use("/api", ChatRoutes);
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+// app.listen(PORT, () => {
+//   console.log(`Server is running on port ${PORT}`);
+// });

@@ -4,9 +4,9 @@ module.exports = {
     connection: {
       host: "localhost",
       user: "postgres",
-      password: "Rafah_123",
+      password: "Hashem",
       database: "voting-system2",
-      port: 5432, 
+      port: 5432,
     },
     migrations: {
       directory: "./migrations",

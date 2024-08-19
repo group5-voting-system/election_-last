@@ -1,13 +1,7 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const localListController = require('../controllers/localListController');
+const localListController = require("../controllers/localListController");
 
-router.post('/', localListController.createLocalList);
-router.get('/:id', localListController.getLocalById);
-router.get('/l/:id', localListController.getListById);
-router.get('/', localListController.getAllLocal);
-router.patch('/:id', localListController.updateLocal);
-router.delete('/:id', localListController.deleteLocal);
-router.post('/', localListController.vote);
+router.post("/", localListController.createLocalList);
 
 module.exports = router;
