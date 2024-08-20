@@ -22,7 +22,11 @@ import Results from "./results.jsx";
 import PartyListVoting from "./PartyListVoting.jsx";
 import PartyResults from "./partyresult.jsx";
 import News from "./news.jsx";
+
 import Log_in from "./page/sign_up.jsx";
+
+import ServiceForm from "./page/adminDash/mulitformservices.jsx";
+
 function App() {
   return (
     <Router>
@@ -42,7 +46,9 @@ function App() {
         <Route path="/payment" element={<PaymentComponent />} />
         <Route path="/area" element={<ArabicGrid />} />
         <Route path="/type" element={<ElectionCircleSelection />} />
-        <Route path="/localVote" element={<VotingSystem />} />
+        <Route path="/localVote" element={<LocalListForm />} />
+        <Route path="/services" element={<ServiceForm/>}/>
+        <Route path="/request" element={<PartyCandidatesRequestForm/>}/>
       </Routes>
     </Router>
   );
