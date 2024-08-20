@@ -4,7 +4,8 @@ const knex = require('knex')(require('./knexfile').development);
 const cors = require('cors');
 const debatesRouter = require('./routes/router');
 // const nodemailer = require('nodemailer');
-// const requests = require('./routes/requests');
+const requests = require('./routes/requests');
+const incomerouter = require('../routes/incomesroute');
 require('dotenv').config();
 // const candidatesRouter = require('./routes/candidatefetch');
 
@@ -13,15 +14,7 @@ require('dotenv').config();
 const app = express();
 const allowedOrigins = ['http://localhost:3000', 'http://localhost:5173'];
 
-app.use(cors({
-  origin: function (origin, callback) {
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  }
-}));
+app.use(cors());
 app.use(bodyParser.json());
 
 // app.use("/api/candidate-requests", candidateRequestRoutes);
@@ -245,15 +238,7 @@ app.put('/api/submit-advertisement/:id', async (req, res) => {
 });
 
 // New route to get all approved advertisements
-app.get('/api/advertisements', async (req, res) => {
-  try {
-    const ads = await knex('ELECTION_ADVERTISEMENTS').select('*');
-    res.json(ads);
-  } catch (error) {
-    console.error('Error fetching advertisements:', error);
-    res.status(500).json({ error: 'An error occurred while fetching advertisements', details: error.message });
-  }
-});
+
 app.get('/api/submit-advertisements', async (req, res) => {
   try {
     const ads = await knex('ELECTION_ADVERTISEMENTS').select('*');
@@ -265,38 +250,40 @@ app.get('/api/submit-advertisements', async (req, res) => {
 });
 
 
-// app.use('ads', requests);
 
-app.put('/api/approve-advertisement/:id', async (req, res) => {
+app.use('api', requests);
+
+
+
+
+
+app.get('/api/incomes', async (req, res) => {
   try {
-      const { id } = req.params;
-      await knex('ELECTION_ADVERTISEMENTS')
-          .where({ ID: id })
-          .update({ STATUS: 'APPROVED' });
-      res.json({ message: 'Advertisement approved successfully' });
+    // Test database connection
+    await knex.raw('SELECT 1');
+    console.log('Database connection successful');
+
+    // Attempt to query the payments table
+    const incomes = await knex('payments')
+      .select('id', 'amount', 'currency', 'status', 'created_at')
+      .orderBy('created_at', 'desc');
+    
+    console.log('Query successful, number of records:', incomes.length);
+    
+    res.json(incomes);
   } catch (error) {
-      console.error('Error approving advertisement:', error);
-      res.status(500).json({ error: 'An error occurred while approving the advertisement', details: error.message });
+    console.error('Detailed error in /api/incomes route:', error);
+    res.status(500).json({ 
+      error: 'An error occurred while fetching incomes', 
+      details: error.message,
+      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+    });
   }
 });
 
-app.put('/api/toggle-advertisement/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const ad = await knex('ELECTION_ADVERTISEMENTS').where({ ID: id }).first();
-    const newStatus = ad.STATUS === 'APPROVED' ? 'PENDING' : 'APPROVED';
-    await knex('ELECTION_ADVERTISEMENTS')
-      .where({ ID: id })
-      .update({ STATUS: newStatus });
-    res.json({ message: 'Advertisement status toggled successfully', newStatus });
-  } catch (error) {
-    console.error('Error toggling advertisement status:', error);
-    res.status(500).json({ error: 'An error occurred while toggling the advertisement status', details: error.message });
-  }
-});
-
-
+// app.use(incomerouter);
 app.use('api', debatesRouter);
+app.use(requests);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

@@ -12,7 +12,7 @@ function Requests() {
     
     const fetchAds = async () => {
         try {
-          const response = await axios.get('http://localhost:5000/api/submit-advertisements');
+          const response = await axios.get('http://localhost:5000/api/advertisements');
           setAds(response.data);
         } catch (error) {
           console.error('Error fetching ads:', error);
@@ -22,7 +22,7 @@ function Requests() {
     
       const approveAd = async (id) => {
         try {
-            await axios.put(`http://localhost:5000/api/approve-advertisement/${id}`);
+            await axios.put(`http://localhost:5000/api/toggle-advertisement/${id}`);
             fetchAds(); // Refresh the list after approval
         } catch (error) {
             console.error('Error approving ad:', error);
@@ -30,7 +30,7 @@ function Requests() {
     };
     const toggleAdStatus = async (id) => {
         try {
-          const response = await axios.put(`http://localhost:5000/api/approve-advertisement/${id}`);
+          const response = await axios.put(`http://localhost:5000/api/advertisement/${id}`);
           console.log(response.data.message);
           fetchAds(); // Refresh the list after toggling
         } catch (error) {
@@ -57,19 +57,7 @@ function Requests() {
     {ad.STATUS === 'APPROVED' ? 'Approved' : isApproving ? 'Approving...' : 'Approve'}
 </button>
 
-{/* get back and change it to pending when clicking on it  */}
 
-
-<button
-            onClick={() => toggleAdStatus(ad.ID)}
-            className={`px-4 py-2 rounded ${
-              ad.STATUS === 'pending'
-                ? 'bg-yellow-500 hover:bg-yellow-600'
-                : 'bg-green-500 hover:bg-green-600'
-            } text-white`}
-          >
-            {ad.STATUS === 'APPROVED' ? 'Switch to Pending' : 'Switch to Approved'}
-          </button>
           </div>
         ))}
       </div>
