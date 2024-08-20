@@ -22,33 +22,39 @@ import Results from "./results.jsx";
 import PartyListVoting from "./PartyListVoting.jsx";
 import PartyResults from "./partyresult.jsx";
 import News from "./news.jsx";
-
+import Log_in_new from "./page/log_in_new.jsx";
 import Log_in from "./page/sign_up.jsx";
-
+import Log_in_home from "./page/log_in_home.jsx";
 import ServiceForm from "./page/adminDash/mulitformservices.jsx";
-
+import Update_password from "./page/update_password.jsx";
+// import Home from "./page/Home";
 function App() {
   return (
     <Router>
       <Header />
-
-      <Log_in />
+      {/* <Log_in />
       <PartyResults />
       <VotingSystem />
       <LocalListForm />
       <PartyListForm />
       <Results />
       {/* <News /> */}
-      <PartyListVoting />
-      <ElectionCircleSelection />
+      {/* <PartyListVoting />
+      <ElectionCircleSelection />  */}
       <Routes>
+        <Route path="/log" element={<Log_in />} />
+        <Route path="/log-in-home" element={<Log_in_home />} />
+        <Route path="/log-in-new" element={<Log_in_new />} />
+        <Route path="/update-pass" element={<Update_password />} />
         <Route path="/" element={<Home />} />
         <Route path="/payment" element={<PaymentComponent />} />
         <Route path="/area" element={<ArabicGrid />} />
         <Route path="/type" element={<ElectionCircleSelection />} />
-        <Route path="/localVote" element={<LocalListForm />} />
-        <Route path="/services" element={<ServiceForm/>}/>
-        <Route path="/request" element={<PartyCandidatesRequestForm/>}/>
+        <Route path="/localVote" element={<VotingSystem />} />
+        <Route path="/partyVote" element={<PartyListVoting />} />
+        <Route path="/results" element={<Results />} />
+        <Route path="/services" element={<ServiceForm />} />
+        <Route path="/request" element={<PartyCandidatesRequestForm />} />
       </Routes>
     </Router>
   );
