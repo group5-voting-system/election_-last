@@ -35,7 +35,7 @@ function Header() {
       <nav className="relative z-20 container mx-auto px-4 h-full">
         <ul className="flex justify-center items-center space-x-6 rtl:space-x-reverse h-full">
           <li>
-            <Link to="/localVote" className="text-white hover:text-jordan-red transition duration-300 text-lg font-bold">
+            <Link to="/type" className="text-white hover:text-jordan-red transition duration-300 text-lg font-bold">
               صوت
             </Link>
           </li>

@@ -27,6 +27,10 @@ import Log_in from "./page/sign_up.jsx";
 
 import ServiceForm from "./page/adminDash/mulitformservices.jsx";
 
+import AdminDashboard from "./page/adminDash/dashboard.jsx";
+
+
+
 function App() {
   return (
     <Router>
@@ -39,8 +43,12 @@ function App() {
       <PartyListForm />
       <Results />
       {/* <News /> */}
-      <PartyListVoting />
+      {/* <PartyListVoting />
       <ElectionCircleSelection />
+
+      <VotingSystem /> */}
+
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/payment" element={<PaymentComponent />} />
@@ -48,6 +56,7 @@ function App() {
         <Route path="/type" element={<ElectionCircleSelection />} />
         <Route path="/localVote" element={<LocalListForm />} />
         <Route path="/services" element={<ServiceForm/>}/>
+        <Route path="/admin" element={<AdminDashboard/>}/>
         <Route path="/request" element={<PartyCandidatesRequestForm/>}/>
       </Routes>
     </Router>
