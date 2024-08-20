@@ -4,13 +4,16 @@ const LocalCandidates = require("../models/localCandidates");
 
 exports.getLists = async (req, res) => {
   try {
-    const lists = await LocalLists.getAllLists();
-    res.json(lists);
+    const list = await LocalLists.getAllLists(req.params.circleId);
+    if (list) {
+      res.json(list);
+    } else {
+      res.status(404).json({ message: 'Voter not found' });
+    }
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetch lists" });
+    res.status(500).json({ error: error.message });
   }
 };
-
 exports.getCandidates = async (req, res) => {
   try {
     const { listId } = req.params;

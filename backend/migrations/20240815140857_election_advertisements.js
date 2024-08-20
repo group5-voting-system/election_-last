@@ -19,10 +19,8 @@ exports.up = function (knex) {
     table.bigInteger("LIKE_COUNT").defaultTo(0); // BIGINT with default value 0
 
     // Foreign key constraints
-    table
-      .foreign("PAYMENT_ID")
-      .references("PAYMENT_ID")
-      .inTable("PAYPAL_PAYMENTS"); // Foreign key referencing PAYMENT_ID in PAYPAL_PAYMENTS table
+    table;
+
     table.foreign("NATIONAL_ID").references("NATIONAL_ID").inTable("USERS"); // Foreign key referencing NATIONAL_ID in USERS table
     table.foreign("CIRCLE_ID").references("CIRCLE_ID").inTable("CIRCLES"); // Foreign key referencing CIRCLE_ID in CIRCLES table
   });

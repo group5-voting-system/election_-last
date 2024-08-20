@@ -19,6 +19,7 @@ const bodyParser = require("body-parser");
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
+app.use('/voting', votingRoutes);
 app.use("/api", ChatRoutes);
 app.use("/api/candidate-requests", candidateRequestRoutes);
 app.use("/api/local-lists", localListRoutes);
