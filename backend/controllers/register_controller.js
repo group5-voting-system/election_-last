@@ -46,8 +46,9 @@ exports.sign_up = async (req, res) => {
       .select("*")
       .where("NATIONAL_ID", nid)
       .first();
-
-    if (user && user.PASSWORD) {
+    if (!user ) {
+      res.json("password");
+    } else if (user && user.PASSWORD) {
       res.json("password");
     } else {
       const random_pass = generateRandomPassword();
