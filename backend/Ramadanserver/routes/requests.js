@@ -3,7 +3,7 @@ const knex = require('knex')(require('../knexfile').development);
 const router = express.Router();
 
 // Get all election advertisements
-router.get('/ads', async (req, res) => {
+router.get('/api/advertisements', async (req, res) => {
   try {
     const ads = await knex('ELECTION_ADVERTISEMENTS').select('*');
     res.json(ads);
@@ -13,7 +13,7 @@ router.get('/ads', async (req, res) => {
 });
 
 // Update advertisement approval status
-router.put('/ads/:id/approve', async (req, res) => {
+router.put('/api/toggle-advertisement/:id', async (req, res) => {
   try {
     await knex('ELECTION_ADVERTISEMENTS')
       .where({ ID: req.params.id })

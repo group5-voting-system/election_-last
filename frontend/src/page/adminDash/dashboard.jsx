@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 // import { FiHome, FiUsers, FiUserCheck, FiCalendar, FiPieChart, FiClock } from 'react-icons/fi';
-import { FiHome,FiUsers,FiUserCheck, FiCalendar, FiPieChart, FiClock, FiSliders } from 'react-fi';
+import { FiHome,FiUsers,FiUserCheck, FiCalendar, FiPieChart, FiClock, FiSliders,FiDollarSign } from 'react-fi';
 import OverviewPanel from './overveiw';
 import CandidatesPanel from './candidatespanel';
 import ElectionsPanel from './elictionspanel';
@@ -10,6 +10,7 @@ import Participated from './participated';
 import TimerControl from './timercontrol';
 import { TimerProvider } from './timecontext';
 import Requests from './requests';
+import IncomesPage from './incomepage';
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('overview');
@@ -30,6 +31,8 @@ const AdminDashboard = () => {
         return <TimerControl />;
         case 'requests':
           return <Requests/>
+        case 'incomes':
+            return <IncomesPage/>;
       default:
         return <OverviewPanel />;
     }
@@ -56,6 +59,7 @@ const AdminDashboard = () => {
                 <NavItem icon={FiUsers} label="ناخبين/مقترعين" onClick={() => setActiveTab('participated')} active={activeTab === 'participated'} />
                 <NavItem icon={FiUserCheck} label="مرشحين" onClick={() => setActiveTab('candidates')} active={activeTab === 'candidates'} />
                 <NavItem icon={FiCalendar} label="إنتخابات" onClick={() => setActiveTab('elections')} active={activeTab === 'elections'} />
+                <NavItem icon={FiDollarSign} label="الأرباح" onClick={() => setActiveTab('incomes')} active={activeTab === 'incomes'} />
                 <NavItem icon={FiPieChart} label="النتائج" onClick={() => setActiveTab('results')} active={activeTab === 'results'} />
                 <NavItem icon={FiClock} label="تحكم المؤقت" onClick={() => setActiveTab('timer')} active={activeTab === 'timer'} />
                 <NavItem icon={FiSliders} label="خدمات" onClick={() => setActiveTab('requests')} active={activeTab === 'requests'} />
