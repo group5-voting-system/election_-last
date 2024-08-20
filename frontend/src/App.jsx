@@ -20,19 +20,23 @@ import VotingSystem from "./VotingSystem.jsx";
 import PartyListForm from "./PartyListForm.jsx";
 import Results from "./results.jsx";
 import PartyListVoting from "./PartyListVoting.jsx";
+import PartyResults from "./partyresult.jsx";
 import News from "./news.jsx";
+import Log_in from "./page/sign_up.jsx";
 function App() {
   return (
     <Router>
       <Header />
 
-      {/* <LocalListForm /> */}
-      {/* <PartyListForm /> */}
-      {/* <Results /> */}
+      <Log_in />
+      <PartyResults />
+      <VotingSystem />
+      <LocalListForm />
+      <PartyListForm />
+      <Results />
       {/* <News /> */}
       <PartyListVoting />
       <ElectionCircleSelection />
-      <VotingSystem />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/payment" element={<PaymentComponent />} />
